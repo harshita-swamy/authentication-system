@@ -24,4 +24,18 @@ const registerValidation = [
     .withMessage('Phone Number must be 10 Digits')
 ]
 
-export {registerValidation};
+const loginValidation = [
+    body('email')
+    .notEmpty()
+    .withMessage('Email is Required')
+    .isEmail()
+    .withMessage('Invalid Email Format'),
+
+    body('password')
+    .notEmpty()
+    .withMessage('Password is Required')
+]
+export {
+    registerValidation,
+    loginValidation
+};

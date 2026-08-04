@@ -73,4 +73,6 @@ const loginService = async (mydata) =>{
     };
 };
 
-export { registerService, loginService };
+export { registerService,
+         loginService
+     };
