@@ -15,7 +15,8 @@ router.post(
  router.post(
     "/Login",
     loginValidation,
+    validationMiddleware,
     loginController
  )
- 
+
  export default router;
