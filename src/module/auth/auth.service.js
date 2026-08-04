@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { check_email, insert_user } from "./auth.query.js";
 import db from "../../config/db.config.js";
