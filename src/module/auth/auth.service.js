@@ -5,7 +5,7 @@ import db from "../../config/db.config.js";
 
 // ================================REGISTER======================================
 
-const registerService = async (userData) => {''
+const registerService = async (userData) => {
     const { name, email, password, phone } = userData;
 
     // Check Email
@@ -36,13 +36,13 @@ const loginService = async (mydata) =>{
 
     const [existingData] = await db.execute(check_email, [email]);
 
-    if(existingData === 0){
+    if(existingData.length === 0){
         throw new Error('Invalid Email')
     }
 
-    const user = user[0];
+    const user = existingData[0];
 
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if(!isMatch){
         throw new Error('Invalid Password')
