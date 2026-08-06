@@ -34,6 +34,7 @@ const registerService = async (userData) => {
 const loginService = async (mydata) =>{
     const {email, password} = mydata;
 
+    // check Email
     const [existingData] = await db.execute(check_email, [email]);
 
     if(existingData.length === 0){
