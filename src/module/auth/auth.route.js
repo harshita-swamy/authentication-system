@@ -1,5 +1,5 @@
 import express from "express";
-import { getProfileController, loginController, registerController } from "./auth.controller.js";
+import { getProfileController, loginController, registerController, updateProfileController } from "./auth.controller.js";
 import { loginValidation, registerValidation } from "./auth.validation.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
 import authMiddleware from "../../middlewares/auth.middleware.js";
@@ -25,5 +25,13 @@ router.post(
    authMiddleware,
    getProfileController
  )
+
+ router.put(
+   "update",
+   authMiddleware,
+   updateProfileController
+ )
+
+
 
  export default router;

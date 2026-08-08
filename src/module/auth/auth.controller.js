@@ -1,4 +1,4 @@
-import { getProfileService, loginService, registerService } from "./auth.service.js";
+import { getProfileService, loginService, registerService, updateProfileService } from "./auth.service.js";
 
 // ==================== REGISTER CONTROLLER ======================
 const registerController = async(req, res)=>{
@@ -55,9 +55,32 @@ const getProfileController = async(req, res) =>{
     }
 }
 
+// ===================== UPDATE PROFILE CONTROLLER ==========================
+
+const updateProfileController = async (req, res) => {
+    try {
+        const result = await updateProfileService(
+            req.body,
+            req.user.id
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile Updated Successfully",
+            data: result
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
 export {
     registerController, 
     loginController,
-    getProfileController
+    getProfileController,
+    updateProfileController
 };

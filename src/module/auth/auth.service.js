@@ -74,7 +74,7 @@ const loginService = async (mydata) =>{
     };
 };
 
-// ===============================Profile============================
+// ==========================GET PROFILE ============================
 const getProfileService = async(userID)=>{
     const [result] = await db.execute(getProfileQuery, [userID]);
 
@@ -82,7 +82,19 @@ const getProfileService = async(userID)=>{
     
 }
 
+
+// ===================== UPDATE PROFILE ======================
+const updateProfileService = async(updateData, userID)=>{
+    const {name, phone} = updateData;
+
+    const [result] = await db.execute(updateProfileQuery, [name, phone, userID]);
+
+    return result;
+}
+
+
 export { registerService,
          loginService,
-         getProfileService
+         getProfileService,
+         updateProfileService
      };
