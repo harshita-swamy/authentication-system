@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { check_email, insert_user } from "./auth.query.js";
+import { check_email, getEmail_byID, getProfileQuery, insert_user } from "./auth.query.js";
 import db from "../../config/db.config.js";
 
 // ================================REGISTER======================================
@@ -74,6 +74,15 @@ const loginService = async (mydata) =>{
     };
 };
 
+// ===============================Profile============================
+const getProfileService = async(userID)=>{
+    const [result] = await db.execute(getProfileQuery, [userID]);
+
+    return result[0];
+    
+}
+
 export { registerService,
-         loginService
+         loginService,
+         getProfileService
      };
