@@ -21,7 +21,7 @@ router.post(
  )
 
  router.get(
-   "profile",
+   "/profile",
    authMiddleware,
    getProfileController
  )
