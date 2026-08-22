@@ -1,4 +1,4 @@
-import { getProfileService, loginService, registerService, updateProfileService } from "./auth.service.js";
+import { changePasswordService, getProfileService, loginService, registerService, updateProfileService } from "./auth.service.js";
 
 // ==================== REGISTER CONTROLLER ======================
 const registerController = async(req, res)=>{
@@ -78,11 +78,30 @@ const updateProfileController = async (req, res) => {
     }
 };
 
+// ===================CHANGE PASSWORD CONTROLLER=======================
 
+const changePasswordController = async(req, res)=>{
+    try {
+        await changePasswordService(req.body, req.user.id); 
+        // Controller Sending User Password and Authenticated User ID to Service.
+
+        return res.status(200).json({
+            success:true,
+            message:'Password Changed Successfully'
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
 
 export {
     registerController, 
     loginController,
     getProfileController,
-    updateProfileController
+    updateProfileController,
+    changePasswordController
 };
