@@ -27,7 +27,7 @@ router.post(
  )
 
  router.put(
-   "update",
+   "/updateProfile",
    authMiddleware,
    updateProfileController
  )

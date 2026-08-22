@@ -8,7 +8,7 @@ const validationMiddleware = async(req, res, next)=>{
             success:false,
             errors:errors.array()
         })
-    }
+    } 
     next();
 }
 

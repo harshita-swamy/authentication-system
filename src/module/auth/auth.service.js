@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { check_email, getEmail_byID, getProfileQuery, insert_user } from "./auth.query.js";
+import { check_email, getEmail_byID, getProfileQuery, insert_user, updateProfileQuery, update_password, get_password_by_id } from "./auth.query.js";
+
 import db from "../../config/db.config.js";
 
 // ================================REGISTER======================================
@@ -23,20 +24,20 @@ const registerService = async (userData) => {
         name,
         email,
         hashPassword,
-        phone
+        phone 
     ]);
 
     return result;
 };
 
-// ================================ LOGIN ===================================
+// ======================== LOGIN ==========================
 
 const loginService = async (mydata) =>{
     const {email, password} = mydata;
 
     // check Email
     const [existingData] = await db.execute(check_email, [email]);
-
+    
     if(existingData.length === 0){
         throw new Error('Invalid Email')
     }
@@ -74,7 +75,7 @@ const loginService = async (mydata) =>{
     };
 };
 
-// ==========================GET PROFILE ============================
+// ======================GET PROFILE ========================
 const getProfileService = async(userID)=>{
     const [result] = await db.execute(getProfileQuery, [userID]);
 
@@ -92,9 +93,39 @@ const updateProfileService = async(updateData, userID)=>{
     return result;
 }
 
+// =================== CHANGE PASSWORD ====================
+
+const changePasswordService = async (userData, userId) => {
+    const { oldPassword, newPassword } = userData;
+
+    // Get Current Password
+    const [result] = await db.execute(get_password_by_id, [userId]);
+
+    const user = result[0];
+
+    // Check Old Password
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+ 
+    if (!isMatch) {
+        throw new Error("Old Password is Incorrect");
+    }
+
+    // Hash New Password
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update Password
+    await db.execute(update_password, [
+        hashPassword,
+        userId
+    ]);
+
+    return true;
+};
+
 
 export { registerService,
          loginService,
          getProfileService,
-         updateProfileService
+         updateProfileService,
+         changePasswordService
      };
